@@ -1,6 +1,6 @@
 DESCRIPTION
 This project contains simple Python exercises to practice:
-- Boolean values and operators ('True', 'Fals'`, 'and', 'or', 'not')
+- Boolean values and operators ('True', 'False', 'and', 'or', 'not')
 - Conditional statements ('if', 'elif', 'else')
 - Shorthand 'if-else'
 - Loops:
