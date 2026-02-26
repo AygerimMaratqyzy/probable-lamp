@@ -1,10 +1,8 @@
 DESCRIPTION
-This project demonstrates core Python programming concepts:
-- Functions
-- Lambda functions
-- Classes & objects
-- Multiple inheritance
-
+This projectcontains solutions to various Python exercises covering:
+**generators, date & time operations, math operations, and JSON parsing**.
+Each topic is implemented in a separate file with multiple examples.
+:
 How to Run?
 1. Make sure Python 3 is installed on your system.
 2. Navigate to the folder containing the Python files.
