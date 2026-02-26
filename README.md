@@ -1,11 +1,9 @@
 DESCRIPTION
-This project contains simple Python exercises to practice:
-- Boolean values and operators ('True', 'False', 'and', 'or', 'not')
-- Conditional statements ('if', 'elif', 'else')
-- Shorthand 'if-else'
-- Loops:
-  - 'while' loops
-  - 'for' loops
+This project demonstrates core Python programming concepts:
+- Functions
+- Lambda functions
+- Classes & objects
+- Multiple inheritance
 
 How to Run?
 1. Make sure Python 3 is installed on your system.
