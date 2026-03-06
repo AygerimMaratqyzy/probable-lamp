@@ -1,8 +1,13 @@
 This project shows how a raw receipt text file can be processed using Python and RegEx.The main objective of this project is to identify and extract important details from unstructured receipt data and organize them.
+
 Project files:
+
 **raw.txt** - a txt file containg receipt data
-**receipt_parser.py** - Python script that processes receipt and extracts data -
+
+**receipt_parser.py** - Python script that processes receipt and extracts data
+
 **README.md** - description of the exercise and implementation.
+
 **Key implementation steps:**
 Read the raw receipt text from raw.txt.
 Normalize formatting if needed (line breaks, spaces).
@@ -21,3 +26,4 @@ Output the result as formatted JSON.
 3.Run the script:
 python receipt_parser.py
 4.The parsed receipt data will be printed in the terminal as formatted JSON.
+
