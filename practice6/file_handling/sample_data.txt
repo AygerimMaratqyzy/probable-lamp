@@ -47,4 +47,5 @@ Tina Smith,20,82
 Uma Brown,21,91
 Victor Wilson,22,86
 Wendy Thomas,19,89
-Xander Harris,23,83
+Xander Harris,23,83Charlie Brown,19,78
+Diana Ross,21,92
