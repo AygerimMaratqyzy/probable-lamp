@@ -1,5 +1,6 @@
 import pygame
 import datetime
+import math
 
 
 class MickeyClock:
@@ -7,73 +8,41 @@ class MickeyClock:
         self.width = width
         self.height = height
         self.center = (width // 2, height // 2)
-        
-        # BACKGROUND (clock face)
-        self.clock_bg = pygame.image.load("clock.png").convert_alpha()
-        self.clock_bg = pygame.transform.smoothscale(
-            self.clock_bg,
-            (width, height)
-        )
 
-        # MICKEY IMAGE (center layer)
+        # ❌ NO SCALING (this was breaking everything)
+        self.clock_img = pygame.image.load("mickeyclock.jpeg").convert_alpha()
 
-        self.mickey_img = pygame.image.load("mickey.png").convert_alpha()
-        self.mickey_img = pygame.transform.smoothscale(
-            self.mickey_img,
-            (int(width * 0.4), int(height * 0.4))
-        )
-
-        
-        # HAND IMAGE
-        self.hand_img = pygame.image.load("mickey_hand.png").convert_alpha()
-
-        # separate sizes for better visual control
-        self.sec_hand_base = pygame.transform.smoothscale(self.hand_img, (55, 230))
-        self.min_hand_base = pygame.transform.smoothscale(self.hand_img, (45, 175))
-
-        # time values
-        self.sec_angle = 0
-        self.min_angle = 0
-
-
-    # TIME → ANGLES
-    def get_time_angles(self):
+    def get_angles(self):
         now = datetime.datetime.now()
 
-        seconds = now.second
+        hours = now.hour % 12
         minutes = now.minute
+        seconds = now.second + now.microsecond / 1_000_000
 
-        sec_angle = seconds * 6   # 360 / 60
-        min_angle = minutes * 6
+        minute_angle = minutes * 6 + seconds * 0.1
+        hour_angle = hours * 30 + minutes * 0.5 + seconds * (0.5 / 60)
 
-        return sec_angle, min_angle
+        return hour_angle, minute_angle
 
-    # ROTATION HELP
+    def draw_hand(self, screen, angle, length, width):
+        # correct rotation direction
+        rad = math.radians(angle - 90)
 
-    def rotate(self, image, angle):
-        rotated = pygame.transform.rotate(image, -angle)
-        rect = rotated.get_rect(center=self.center)
-        return rotated, rect
-    # UPDATE LOGIC
+        end_x = self.center[0] + math.cos(rad) * length
+        end_y = self.center[1] + math.sin(rad) * length
+
+        pygame.draw.line(screen, (0, 0, 0),
+                          self.center,
+                          (end_x, end_y),
+                          width)
+
     def update(self):
-        self.sec_angle, self.min_angle = self.get_time_angles()
+        self.hour_angle, self.minute_angle = self.get_angles()
 
-    # DRAW EVERYTHING
-    
     def draw(self, screen):
+        # FIXED IMAGE (no distortion)
+        screen.blit(self.clock_img, (0, 0))
 
-        # 1. BACKGROUND CLOCK
-        bg_rect = self.clock_bg.get_rect(center=self.center)
-        screen.blit(self.clock_bg, bg_rect)
-
-        # 2. MICKEY ON TOP OF CLOCK FACE
-        mickey_rect = self.mickey_img.get_rect(center=self.center)
-        screen.blit(self.mickey_img, mickey_rect)
-
-        # 3. SECOND HAND
-        sec_img, sec_rect = self.rotate(self.sec_hand_base, self.sec_angle)
-        screen.blit(sec_img, sec_rect)
-
-        # 4. MINUTE HAND
-        min_img, min_rect = self.rotate(self.min_hand_base, self.min_angle)
-        screen.blit(min_img, min_rect)
+        # tuned lengths (for 1400x1050 image)
+        self.draw_hand(screen, self.hour_angle, length=250, width=8)
+        self.draw_hand(screen, self.minute_angle, length=380, width=5)

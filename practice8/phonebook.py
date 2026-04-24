@@ -1,17 +1,28 @@
 from connect import get_connection
-
 def insert_or_update():
     name = input("Enter name: ")
-    phone = input("Enter phone: ")
 
-    conn = get_connection()
-    cur = conn.cursor()
+    while True:
+        phone = input("Enter phone: ")
+        if not phone.isdigit():
+            print("Phone must contain only digits! Try again.")
+            continue
 
-    cur.execute("CALL upsert_contact(%s, %s)", (name, phone))
-    conn.commit()
-
-    cur.close()
-    conn.close()
+    
+        conn = get_connection()
+        cur = conn.cursor()
+        try:
+            cur.execute("CALL upsert_contact(%s, %s)", (name, phone))
+            conn.commit()
+            print("Saved successfully!")
+            cur.close()
+            conn.close()
+            break
+        except Exception as e:
+            print("Database error:", e)
+            conn.rollback()
+            cur.close()
+            conn.close()
 
 
 def search():
@@ -67,7 +78,13 @@ def bulk_insert():
 
     for _ in range(n):
         names.append(input("Name: "))
-        phones.append(input("Phone: "))
+        while True:
+            phone = input("Phone: ")
+            if phone.isdigit():
+                phones.append(phone)
+                break
+            else:
+                print("Phone must contain only digits!")
 
     conn = get_connection()
     cur = conn.cursor()

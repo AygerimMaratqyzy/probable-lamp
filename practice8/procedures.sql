@@ -2,6 +2,10 @@
 CREATE OR REPLACE PROCEDURE upsert_contact(p_name VARCHAR, p_phone VARCHAR)
 LANGUAGE plpgsql AS $$
 BEGIN
+    IF p_phone !~ '^[0-9]+$' THEN
+        RAISE EXCEPTION 'Phone must contain only digits!';
+    END IF;
+
     IF EXISTS (SELECT 1 FROM contacts WHERE name = p_name) THEN
         UPDATE contacts
         SET phone = p_phone

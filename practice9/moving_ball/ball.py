@@ -5,7 +5,7 @@ class Ball:
         self.x = x
         self.y = y
         self.radius = radius
-        self.color = (255, 0, 0)  # red
+        self.color = (255, 255, 0)  # yellow
         self.speed = 20
         self.screen_width = screen_width
         self.screen_height = screen_height
